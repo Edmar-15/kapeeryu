@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Final| Home{% endblock %}
+{% block style %}{% static "css/home.css" %}{% endblock %}
 
 {% block content %}
 <h2>Welcome {{ request.user.username }}</h2>
