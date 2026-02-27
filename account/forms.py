@@ -21,7 +21,7 @@ class RegisterForm(forms.ModelForm):
         email = self.cleaned_data.get('email')
 
         try:
-            local_part, domain = email.split('@')[-1].lower()
+            local_part, domain = email.split('@')
         except ValueError:
             raise forms.ValidationError('Invalid email format')
 
