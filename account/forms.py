@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User, UserProfile
 import re
 
 ALLOWED_DOMAINS = [
@@ -14,7 +14,7 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            'email', 'username', 'password'
+            'email', 'password'
         ]
 
     def clean_email(self):
@@ -35,3 +35,18 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError('Account with this email already exists')
 
         return email
+    
+    def save(self, commit=True):
+        email = self.cleaned_data['email']
+        password = self.cleaned_data['password']
+        user = User.objects.create_user(email=email, password=password)
+        return user
+    
+class AccountCompletion(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = [
+            'first_name',
+            'last_name',
+            'profile_pic',
+        ]

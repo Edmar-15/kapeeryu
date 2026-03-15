@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
+{% load usernames_filter %}
 
 {% block title %}Final| Home{% endblock %}
 {% block style %}{% static "css/home.css" %}{% endblock %}
 
 {% block content %}
-<h2>Welcome {{ request.user.username }}</h2>
+<h2>Welcome {{ request.user.username|mask_username }}</h2>
 
 <p>You are logged in as {{ request.user.email }}</p>
 
