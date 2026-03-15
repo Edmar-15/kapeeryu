@@ -1,5 +1,6 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, User
 from django.db import models
+import random
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -45,7 +46,20 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=150, null=True)
     profile_pic = models.ImageField(upload_to='profiles/', default='default.png')
     is_verified = models.BooleanField(default=False)
+    account_complete = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'account_user_profile'
+
+class EmailOTP(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "email_otp"
+
+    def generate_otp(self):
+        self.otp = str(random.randint(100000, 999999))
+        self.save()
